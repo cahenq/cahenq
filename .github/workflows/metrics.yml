@@ -1,1 +1,44 @@
 
+name: metrics
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  base:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.base.svg
+          theme: default
+          config_display: large
+          plugin_lines: no
+          plugin_habits: no
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.base.dark.svg
+          theme: dark
+
+  isocalendar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.isocalendar.svg
+          theme: default
+          base: header, activity=no, community=no, repositories=no
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.isocalendar.dark.svg
+          theme: dark
+          base: header, activity=no, community=no, repositories=no
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
